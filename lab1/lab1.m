@@ -112,7 +112,6 @@ disp("my diff")
 % ============================================================
 
 %% =================== Part 3: Gradient descent ===================
-pause;
 X = [ones(size(x,1), 1), x]; % Add a column of ones to x
 theta = zeros(2, 1); % initialize fitting parameters
 
@@ -153,7 +152,6 @@ legend('Training data', 'Linear regression')
 % ============================================================
 
 %% ======= Part 4a: Linear regression with multiple variables ==============
-pause;
 % In this part you are going to change the code in the following files so
 % that your implementation of Linear Regression works for multiple
 % variables:
@@ -192,7 +190,6 @@ disp("mu: " + mu + " sigma: " + sigma);
 % "mu: 2977.5842 sigma: 849.4026"
 % "mu: 23.445918 sigma: 7.805007"
 % ============================================================
-pause;
 
 X = [ones(size(x,1), 1) x]; % Add intercept term to X
 theta = zeros(3, 1);
@@ -204,7 +201,7 @@ numgrad = checkGradient(@(p) costLinearRegression(p, X, y), theta);
 diff = norm(numgrad-grad)/norm(numgrad+grad) % Should be less than 1e-9
 
 % Hyperparameters for gradient descent
-alpha = 0.1;
+alpha = 0.07;
 num_iters = 500;
 
 % Run Gradient Descent
@@ -235,12 +232,16 @@ legend('Training data', 'Linear regression')
 % a MPG of 30. Hint: It should be around 98
 % ====================== YOUR CODE HERE ======================
 % Remember that you have to normalize the values first using mu and sigma.
-norm_weight = ((3000-mu(1))/sigma(1))
+norm_weight = ((3000-mu(1))/sigma(1));
 % 0.0264
-norm_mpg = ((30-mu(2))/sigma(2))
+norm_mpg = ((30-mu(2))/sigma(2));
 % 0.8397
-y_pred = [1 norm_weight norm_mpg]*theta
+target_vector = [1; norm_weight; norm_mpg]
+
+y_pred = theta.*target_vector
+y_pred = sum(y_pred)
 % 80.1872
+disp("theta: " + theta);
 % ============================================================
 
 % ====================== REPORT ==============================
@@ -248,6 +249,10 @@ y_pred = [1 norm_weight norm_mpg]*theta
 % get? What alpha and num_iters did you use? What values of theta did you
 % get? Show the plot of J_history. What prediction of the horsepower did
 % you get? Show how you calculated that value.
+%
+% diff: 1.1752e-10   alpha: 0.1   num_iters: 500
+% "theta: 104.4694"   "theta: 33.27706"   "theta: -29.96255"
+% y_pred = [1 normalized_weight normalized_mpg]*theta = 80.1872
 % ============================================================
 
 %% ========= Part 4b: Vectorization - Linear regression with multiple variables ==================
@@ -275,7 +280,8 @@ theta = normalEqn(X, y);
 % Predict how much horsepower a car would have that weights 3000 kg and has
 % a MPG of 30. You should get the same answer as in Part 4.
 % ====================== YOUR CODE HERE ======================
-%y_pred_normalEqn = ...
+y_pred_normalEqn = [1 norm_weight norm_mpg]*theta
+disp("theta: " + theta);
 % ============================================================
 
 % ====================== REPORT ==============================
@@ -284,7 +290,7 @@ theta = normalEqn(X, y);
 % calculated that value.
 % ============================================================
 
-
+pause;
 %% ==================== Part 6: Logistic Regression ====================
 clear; % Clear all workspace variables
 load hospital.mat

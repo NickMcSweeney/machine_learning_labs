@@ -4,7 +4,7 @@ function theta = normalEqn(X, y)
 % ====================== YOUR CODE HERE ======================
 % Use the MATLAB command pinv to calculate the inverse. Use ' for
 % transpose.
-theta = ...
+theta = pinv(X' * X)*X' *y;
 % ============================================================
 
 end

@@ -348,7 +348,7 @@ load('spamTest.mat'); % % Gives Xtest, ytest to your workspace
 % better accuracy than the SVM.
 
 kernelFunction = @linearKernel;
-model = svmTrain(X,y,1,kernelFunction);
+model = svmTrain*
 
 % ============================================================
 
