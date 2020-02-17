@@ -10,6 +10,8 @@ rowsToBeRemoved = find(sum((isnan([x y])),2)+sum(isinf([x y]),2)~=0);
 % HINT: You can use the function removerows or x(rowsToBeRemoved,:) = [];
 x(rowsToBeRemoved,:) = [];
 y(rowsToBeRemoved,:) = [];
+%x = removerows(x, 'ind', rowsToBeRemoved);
+%y = removerows(y, 'ind', rowsToBeRemoved);
 % ============================================================
 
 end

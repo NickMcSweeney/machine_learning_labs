@@ -16,7 +16,8 @@ grad = zeros(size(theta));
 % the code when you have checked that you have the correct cost and
 % gradient.
 
-J =  sum((sum([theta'.*X]')' - y).^2)/(2*m);
+%J =  sum((sum([theta'.*X]')' - y).^2)/(2*m);
+J = sum((X*theta-y).^2)/(2*m);
 
 % =========================================================================
 
@@ -28,7 +29,8 @@ J =  sum((sum([theta'.*X]')' - y).^2)/(2*m);
 % and sum up the gradients. The variable grad should be a vector of same
 % length as the number of parameters (theta).
 
-grad = sum([[theta'.*X] - y].*X)/m;
+%grad = sum([[theta'.*X] - y].*X)/m;
+grad = ((X*theta-y)'*X)/m;
 
 % =========================================================================
 

@@ -348,7 +348,17 @@ load('spamTest.mat'); % % Gives Xtest, ytest to your workspace
 % better accuracy than the SVM.
 
 kernelFunction = @linearKernel;
-model = svmTrain(X,y,1,kernelFunction);
+C = [1, 0.1, 0.01, 0.001];
+for i=1:4
+model = svmTrain(X,y,C(i),kernelFunction);
+pred = svmPredict(model, Xtest);
+error = (sum(abs(pred - ytest)));
+[total, other] = size(pred);
+correct = 1 - (error/total);
+disp("accuracy svm model for C="+C(i)+": " + (correct*100) + "%");
+end
+
+model = svmTrain(X,y,0.1,kernelFunction);
 
 % ============================================================
 
@@ -366,3 +376,9 @@ model = svmTrain(X,y,1,kernelFunction);
 file_contents = readFile('emailSample.txt');
 word_indices  = processEmail(file_contents);
 features = emailFeatures(word_indices);
+pred = svmPredict(model,features);
+if pred == 1
+    disp("<< --- SPAM! --- >>");
+else
+    disp("<< --- HAM? --- >>");
+end

@@ -205,7 +205,8 @@ alpha = 0.07;
 num_iters = 500;
 
 % Run Gradient Descent
-[theta J_history] = gradientDescent(theta, X, y, alpha, num_iters);
+%[theta J_history] = gradientDescent(theta, X, y, alpha, num_iters);
+[theta J_history] = gradientDescentMomentum(theta, X, y, alpha, num_iters);
 
 % Plot J_history. If your implementation is correct J should decrease after
 % each iteration.
@@ -238,9 +239,9 @@ norm_mpg = ((30-mu(2))/sigma(2));
 % 0.8397
 target_vector = [1; norm_weight; norm_mpg]
 
-y_pred = theta.*target_vector
+y_pred = theta.*target_vector;
 y_pred = sum(y_pred)
-% 80.1872
+% 98.9896
 disp("theta: " + theta);
 % ============================================================
 
@@ -250,9 +251,9 @@ disp("theta: " + theta);
 % get? Show the plot of J_history. What prediction of the horsepower did
 % you get? Show how you calculated that value.
 %
-% diff: 1.1752e-10   alpha: 0.1   num_iters: 500
-% "theta: 104.4694"   "theta: 33.27706"   "theta: -29.96255"
-% y_pred = [1 normalized_weight normalized_mpg]*theta = 80.1872
+% diff: 1.1752e-10   alpha: 0.07   num_iters: 500
+% "theta: 104.4694"   "theta: 27.13639"   "theta: -7.378443"
+% y_pred = [1 normalized_weight normalized_mpg]*theta = 98.9896
 % ============================================================
 
 %% ========= Part 4b: Vectorization - Linear regression with multiple variables ==================
@@ -280,14 +281,21 @@ theta = normalEqn(X, y);
 % Predict how much horsepower a car would have that weights 3000 kg and has
 % a MPG of 30. You should get the same answer as in Part 4.
 % ====================== YOUR CODE HERE ======================
-y_pred_normalEqn = [1 norm_weight norm_mpg]*theta
-disp("theta: " + theta);
+target_vector = [1; 3000; 30];
+
+y_pred = theta.*target_vector;
+y_pred = sum(y_pred)
+%disp("theta: " + theta);
 % ============================================================
 
 % ====================== REPORT ==============================
 % Show the final code in normalEqn.m. Compare the predicted horsepower when
 % using the normal equation and when using gradient descent. Show how you
 % calculated that value.
+%
+% predicted hp (normal): 98.9896
+% predicted hp (gradent descent): 98.9896
+%
 % ============================================================
 
 pause;
@@ -367,7 +375,12 @@ prob = sigmoid([1 32 124] * theta) % Should return a value around 0.35
 % Show the final code in sigmoid.m and costLogisticRegression.m. What value
 % of diff and prob did you get? Include the plot of the data with the
 % logistic regression decision boundry.
+%
+% diff: 2.0302e-14
+% prob: 0.3535 (of smoking)
+%
 % ============================================================
+pause;
 
 %% ============== Part 7: Polynomial features ==================
 % NOTE: THIS PART IS ONLY REQUIRED FOR PASS WITH DISTINCTION. YOU CAN SKIP
@@ -401,12 +414,13 @@ for i = 1:length(u)
     end
 end
 z = z'; % important to transpose z before calling contour
-contour(u, v, z, [0.5 0.5], 'Color', 'k', 'LineWidth', 2)
+contour(u, v, z, [0.5 0.5], 'Color', 'k','LineWidth', 2)
 
 % ====================== YOUR CODE HERE ======================
 % Calculate the probability that a patient with age 32 and blood pressure
 % 124 is a smoker.
-%prob = ...
+temp = (mapFeature(32, 124, degree) - [1 mu])./[1 sigma];
+prob = sigmoid(temp * theta)
 % ============================================================
 
 % ====================== REPORT ==============================
@@ -415,4 +429,6 @@ contour(u, v, z, [0.5 0.5], 'Color', 'k', 'LineWidth', 2)
 % features with the logistic regression decision boundry. Report what the
 % probability that a patient with age 32 and blood pressure 124 is a
 % smoker.
+%
+% prob = 0.9765
 % ============================================================
